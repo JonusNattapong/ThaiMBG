@@ -148,8 +148,8 @@ potential predictors formatted as raster surfaces:
 ``` r
 # Spatial covariates
 covariates <- list(
-  access = terra::rast(system.file('extdata/access.tif', package = 'ThaiMBG')),
-  evi = terra::rast(system.file('extdata/evi.tif', package = 'ThaiMBG')),
+  access = terra::rast(system.file('extdata/thailand_elevation.tif', package = 'ThaiMBG')),
+  evi = terra::rast(system.file('extdata/thailand_elevation.tif', package = 'ThaiMBG')),
   temperature = terra::rast(system.file('extdata/temperature.tif', package = 'ThaiMBG'))
 )
 # Plot the covariates
@@ -190,7 +190,7 @@ aggregation_table <- mbg::build_aggregation_table(
 )
 # Population raster: used for aggregation to administrative boundaries
 population_raster <- terra::rast(
-  system.file('extdata/under_5_population.tif', package = 'ThaiMBG')
+  system.file('extdata/thailand_population_2020.tif', package = 'ThaiMBG')
 )
 ```
 
