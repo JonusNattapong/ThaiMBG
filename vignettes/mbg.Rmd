@@ -1,14 +1,14 @@
 ---
-title: "Getting started with MBG"
+title: "Getting started with ThaiMBG"
 output:
   rmarkdown::html_vignette: default
 vignette: >
-  %\VignetteIndexEntry{Getting started with MBG}
+  %\VignetteIndexEntry{Getting started with ThaiMBG}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-This vignette introduces `mbg`, a package for modern Model-Based
+This vignette introduces `ThaiMBG`, a package for modern Model-Based
 Geostatistics. This package offers tools for spatial regression
 analysis:
 
@@ -22,7 +22,7 @@ analysis:
     aggregation is generating administrative summaries of fine-scale
     raster data
 
-`mbg` combines functions from several packages:
+`ThaiMBG` combines functions from several packages:
 
   - `INLA`: for running Bayesian geostatistical models
   - `data.table`: for handling tabular data
@@ -31,12 +31,12 @@ analysis:
   - `caret` for running ML models with point outcomes and raster
     predictors
 
-In this tutorial, we will run a simple `mbg` model with prepared data to
+In this tutorial, we will run a simple `ThaiMBG` model with prepared data to
 demonstrate core package functions.
 
 # Setting up
 
-Load the `mbg` package, as well as the `data.table`, `sf`, and `terra`
+Load the `ThaiMBG` package, as well as the `data.table`, `sf`, and `terra`
 packages for data processing, and the `ggplot2` package for plotting.
 
 ``` r
@@ -45,17 +45,17 @@ library(data.table)
 library(ggplot2)
 library(sf)
 library(terra)
-library(mbg)
+library(ThaiMBG)
 ```
 
 For this tutorial, we will estimate stunting rates among children under
-5 years of age across Benin. Load point observations of this outcome
+5 years of age across Thailand. Load point observations of this outcome
 from the package data and print the first few rows:
 
 ``` r
 # Outcome: child stunting
 outcomes <- data.table::fread(
-  system.file('extdata/child_stunting.csv', package = 'mbg')
+  system.file('extdata/child_stunting.csv', package = 'ThaiMBG')
 )
 ```
 
@@ -79,12 +79,12 @@ and five columns:
   - **x**: The surveyed location’s longitude
   - **y**: The surveyed location’s latitude
 
-Let’s map this survey data over a map of Benin.
+Let’s map this survey data over a map of Thailand.
 
 ``` r
 # Administrative boundaries
 communes <- sf::st_read(
-  system.file('extdata/Benin_communes.gpkg', package = 'mbg'),
+  system.file('extdata/Thailand_communes.gpkg', package = 'ThaiMBG'),
   quiet = TRUE
 )
 

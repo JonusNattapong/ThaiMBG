@@ -1,28 +1,28 @@
-# Model-Based Geostatistics
+# Model-Based Geostatistics for Thailand
 
-[![CRAN](https://www.r-pkg.org/badges/version/mbg?color=ffcc00)](https://cran.r-project.org/package=mbg)
-[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/mbg?color=blue)](https://cran.r-project.org/package=mbg)
-[![Build status](https://github.com/henryspatialanalysis/mbg/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/henryspatialanalysis/mbg/actions/workflows/pkgdown.yaml)
+[![CRAN](https://www.r-pkg.org/badges/version/ThaiMBG?color=ffcc00)](https://cran.r-project.org/package=ThaiMBG)
+[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ThaiMBG?color=blue)](https://cran.r-project.org/package=ThaiMBG)
+[![Build status](https://github.com/JonusNattapong/ThaiMBG/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/JonusNattapong/ThaiMBG/actions/workflows/pkgdown.yaml)
 
-**`mbg` is an R package for model-based geostatistics.**
+**`ThaiMBG` is an R package for model-based geostatistics.**
 
-The `mbg` package provides a simple interface to run spatial machine learning models and geostatistical models that estimate a continuous (raster) surface from point-referenced observations and, optionally, a set of raster covariates. The package also includes functions to summarize raster estimates by (polygon) region while preserving uncertainty.
+The `ThaiMBG` package provides a simple interface to run spatial machine learning models and geostatistical models that estimate a continuous (raster) surface from point-referenced observations and, optionally, a set of raster covariates. The package also includes functions to summarize raster estimates by (polygon) region while preserving uncertainty.
 
 ![_Overview of the MBG workflow_\n](man/figures/mbg_workflow.png)
 
-The `mbg` package combines features from the [`sf`](https://r-spatial.github.io/sf/), [`terra`](https://rspatial.github.io/terra/), and [`data.table`](https://CRAN.R-project.org/package=data.table) packages for spatial data processing; [`caret`](https://topepo.github.io/caret/) for spatial ML models; and [`R-INLA`](https://www.r-inla.org/) for geostatistical models.
+The `ThaiMBG` package combines features from the [`sf`](https://r-spatial.github.io/sf/), [`terra`](https://rspatial.github.io/terra/), and [`data.table`](https://CRAN.R-project.org/package=data.table) packages for spatial data processing; [`caret`](https://topepo.github.io/caret/) for spatial ML models; and [`R-INLA`](https://www.r-inla.org/) for geostatistical models.
 
 ---
 
 ## Using the package
 
-**You can install the latest stable version of the mbg package from CRAN:**
+**You can install the latest stable version of the ThaiMBG package from CRAN:**
 
-```install.packages("mbg")```
+```install.packages("ThaiMBG")```
 
 Some core package functions rely on R-INLA, which is not available on CRAN. If you do not already have the `INLA` package installed, you can download it following [these instructions](https://www.r-inla.org/download-install).
 
-After installing and package and loading it using `library(mbg)`, you can access the package vignette by running `help(mbg)`, or get documentation for a specific function by running e.g. `help(MbgModelRunner)`.
+After installing and package and loading it using `library(ThaiMBG)`, you can access the package vignette by running `help(ThaiMBG)`, or get documentation for a specific function by running e.g. `help(MbgModelRunner)`.
 
 ---
 
@@ -38,7 +38,7 @@ A typical MBG workflow includes the following steps:
 6. **Summarize predictive draws** as raster surfaces by taking the mean, median, and 95% uncertainty interval bounds of draws at each pixel location
 7. _(Optional):_ **Aggregate** from pixels to administrative boundaries, preserving uncertainty
 
-For more details, see the [introductory vignette](https://henryspatialanalysis.github.io/mbg/articles/mbg.html).
+For more details, see the [introductory vignette](https://JonusNattapong.github.io/ThaiMBG/articles/mbg.html).
 
 ---
 

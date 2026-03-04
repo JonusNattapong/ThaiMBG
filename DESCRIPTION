@@ -1,5 +1,5 @@
-Package: mbg
-Title: Model-Based Geostatistics
+Package: ThaiMBG
+Title: Model-Based Geostatistics for Thailand
 Version: 1.1.0
 Authors@R: c(
     person("Nathaniel", "Henry", email = "nat@henryspatialanalysis.com",
@@ -42,5 +42,5 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
-URL: https://henryspatialanalysis.github.io/mbg/
-BugReports: https://github.com/henryspatialanalysis/mbg/issues
+URL: https://github.com/JonusNattapong/ThaiMBG/
+BugReports: https://github.com/JonusNattapong/ThaiMBG/issues
