@@ -1,7 +1,7 @@
 # Model-Based Geostatistics for Thailand
 
-[![CRAN](https://www.r-pkg.org/badges/version/ThaiMBG?color=ffcc00)](https://cran.r-project.org/package=ThaiMBG)
-[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ThaiMBG?color=blue)](https://cran.r-project.org/package=ThaiMBG)
+[![CRAN](https://www.r-pkg.org/badges/version/ThaiMBG?color=ffcc00)](https://cran.r-project.org/package/ThaiMBG)
+[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ThaiMBG?color=blue)](https://cran.r-project.org/package/ThaiMBG)
 [![Build status](https://github.com/JonusNattapong/ThaiMBG/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/JonusNattapong/ThaiMBG/actions/workflows/pkgdown.yaml)
 
 **`ThaiMBG` is an R package for model-based geostatistics.**
