@@ -141,43 +141,43 @@ outcome from the package data and print the first few rows:</p>
 <td align="right">3</td>
 <td align="right">5</td>
 <td align="right">16</td>
-<td align="right">1.762278</td>
-<td align="right">6.267199</td>
+<td align="right">100.5234</td>
+<td align="right">13.75632</td>
 </tr>
 <tr class="even">
 <td align="right">4</td>
 <td align="right">5</td>
 <td align="right">14</td>
-<td align="right">2.044534</td>
-<td align="right">6.335044</td>
+<td align="right">99.1234</td>
+<td align="right">18.45211</td>
 </tr>
 <tr class="odd">
 <td align="right">5</td>
 <td align="right">2</td>
 <td align="right">13</td>
-<td align="right">2.420548</td>
-<td align="right">6.346753</td>
+<td align="right">102.3456</td>
+<td align="right">7.89123</td>
 </tr>
 <tr class="even">
 <td align="right">6</td>
 <td align="right">1</td>
 <td align="right">17</td>
-<td align="right">2.371199</td>
-<td align="right">6.349460</td>
+<td align="right">104.5678</td>
+<td align="right">16.23456</td>
 </tr>
 <tr class="odd">
 <td align="right">7</td>
 <td align="right">8</td>
 <td align="right">20</td>
-<td align="right">1.889197</td>
-<td align="right">6.351104</td>
+<td align="right">98.9876</td>
+<td align="right">12.34567</td>
 </tr>
 <tr class="even">
 <td align="right">8</td>
 <td align="right">4</td>
 <td align="right">23</td>
-<td align="right">2.369804</td>
-<td align="right">6.354230</td>
+<td align="right">101.2345</td>
+<td align="right">14.56789</td>
 </tr>
 </tbody>
 </table>
@@ -201,8 +201,8 @@ the number of sampled children who met the definition for stunting</li>
 <p>Let’s map this survey data over a map of Thailand.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Administrative boundaries</span></span>
-<span><span class="va">communes</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/Thailand_communes.gpkg'</span>, package <span class="op">=</span> <span class="st">'ThaiMBG'</span><span class="op">)</span>,</span>
+<span><span class="va">provinces</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/Thailand_provinces.gpkg'</span>, package <span class="op">=</span> <span class="st">'ThaiMBG'</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -210,12 +210,12 @@ the number of sampled children who met the definition for stunting</li>
 <span><span class="va">outcome_sf</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span></span>
 <span>  <span class="va">outcomes</span>,</span>
 <span>  coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'x'</span>, <span class="st">'y'</span><span class="op">)</span>,</span>
-<span>  crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">communes</span><span class="op">)</span></span>
+<span>  crs <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">provinces</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">outcome_sf</span><span class="op">$</span><span class="va">stunting_rate</span> <span class="op">&lt;-</span> <span class="va">outcome_sf</span><span class="op">$</span><span class="va">indicator</span> <span class="op">/</span> <span class="va">outcome_sf</span><span class="op">$</span><span class="va">samplesize</span></span>
 <span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">communes</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">provinces</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span></span>
 <span>    data <span class="op">=</span> <span class="va">outcome_sf</span>,</span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">stunting_rate</span>, size <span class="op">=</span> <span class="va">samplesize</span><span class="op">)</span>,</span>
@@ -235,10 +235,10 @@ the number of sampled children who met the definition for stunting</li>
 <p><img src="mbg_files/figure-gfm/plot-outcome-data-1.png"><!-- --></p>
 <p>We can see that there seem to be spatial patterns in the surveyed
 stunting data—stunting generally seems to be lower around the urban
-regions of Porto Novo in the coastal south and Parakou in the center
-north, and higher in the far north and the inland south. To better
-understand the underlying trends in stunting risk across the country, we
-would ideally like to:</p>
+regions of Bangkok in the central plain and Chiang Mai in the north, and
+higher in the rural northeast and southern regions. To better understand
+the underlying trends in stunting risk across the country, we would
+ideally like to:</p>
 <ul>
 <li>Adjust for noise in the outcome due to small sample sizes in the
 point-level survey data;</li>
@@ -261,9 +261,9 @@ potential predictors formatted as raster surfaces:</p>
 <!-- end list --><div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Spatial covariates</span></span>
 <span><span class="va">covariates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  access <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/access.tif'</span>, package <span class="op">=</span> <span class="st">'mbg'</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  evi <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/evi.tif'</span>, package <span class="op">=</span> <span class="st">'mbg'</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  temperature <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/temperature.tif'</span>, package <span class="op">=</span> <span class="st">'mbg'</span><span class="op">)</span><span class="op">)</span></span>
+<span>  access <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/access.tif'</span>, package <span class="op">=</span> <span class="st">'ThaiMBG'</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  evi <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/evi.tif'</span>, package <span class="op">=</span> <span class="st">'ThaiMBG'</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  temperature <span class="op">=</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/temperature.tif'</span>, package <span class="op">=</span> <span class="st">'ThaiMBG'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co"># Plot the covariates</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span><span class="va">covariates</span><span class="op">)</span>, nr <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
@@ -279,7 +279,7 @@ out the prediction grid. The model will make predictions for all non-NA
 cells in the <code>id_raster</code>.</li>
 <li>
 <code>aggregation_table</code> (<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table</a></code>,
-optional): Used to aggregate model estimates from grid cells to commune
+optional): Used to aggregate model estimates from grid cells to province
 polygons, preserving uncertainty</li>
 <li>
 <code>population_raster</code> (<code><a href="https://rspatial.github.io/terra/reference/SpatRaster-class.html" class="external-link">terra::SpatRaster</a></code>,
@@ -291,18 +291,18 @@ results by polygon.</li>
 <!-- end list --><div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create ID raster</span></span>
 <span><span class="va">id_raster</span> <span class="op">&lt;-</span> <span class="fu">mbg</span><span class="fu">::</span><span class="fu">build_id_raster</span><span class="op">(</span></span>
-<span>  polygons <span class="op">=</span> <span class="va">communes</span>,</span>
+<span>  polygons <span class="op">=</span> <span class="va">provinces</span>,</span>
 <span>  template_raster <span class="op">=</span> <span class="va">covariates</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co"># Table to help with aggregation to higher administrative levels</span></span>
 <span><span class="va">aggregation_table</span> <span class="op">&lt;-</span> <span class="fu">mbg</span><span class="fu">::</span><span class="fu">build_aggregation_table</span><span class="op">(</span></span>
-<span>  polygons <span class="op">=</span> <span class="va">communes</span>,</span>
+<span>  polygons <span class="op">=</span> <span class="va">provinces</span>,</span>
 <span>  id_raster <span class="op">=</span> <span class="va">id_raster</span>,</span>
-<span>  polygon_id_field <span class="op">=</span> <span class="st">'commune_code'</span></span>
+<span>  polygon_id_field <span class="op">=</span> <span class="st">'province_code'</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co"># Population raster: used for aggregation to administrative boundaries</span></span>
 <span><span class="va">population_raster</span> <span class="op">&lt;-</span> <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/under_5_population.tif'</span>, package <span class="op">=</span> <span class="st">'mbg'</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">'extdata/under_5_population.tif'</span>, package <span class="op">=</span> <span class="st">'ThaiMBG'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -329,8 +329,8 @@ below creates the intercept as one of the covariate rasters.</p>
 <span>  covariate_rasters <span class="op">=</span> <span class="va">covariates</span>,</span>
 <span>  aggregation_table <span class="op">=</span> <span class="va">aggregation_table</span>,</span>
 <span>  aggregation_levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    commune <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'commune_code'</span>, <span class="st">'commune'</span>, <span class="st">'department_code'</span>, <span class="st">'department'</span><span class="op">)</span>,</span>
-<span>    region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'department_code'</span>, <span class="st">'department'</span><span class="op">)</span></span>
+<span>    province <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'province_code'</span>, <span class="st">'province'</span><span class="op">)</span>,</span>
+<span>    region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'region_code'</span>, <span class="st">'region'</span><span class="op">)</span></span>
 <span>  <span class="op">)</span>,</span>
 <span>  population_raster <span class="op">=</span> <span class="va">population_raster</span></span>
 <span><span class="op">)</span></span>
@@ -391,7 +391,7 @@ default, shows the 97.5th percentile of samples for each grid cell.</li>
 <span>  <span class="va">grid_cell_predictions</span><span class="op">$</span><span class="va">cell_pred_mean</span> <span class="op">*</span> <span class="fl">100</span>,</span>
 <span>  main <span class="op">=</span> <span class="st">'MBG mean estimates (%)'</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">communes</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">provinces</span><span class="op">)</span></span></code></pre></div>
 <p><img src="mbg_files/figure-gfm/plot-pixel-mean-predictions-1.png"><!-- --></p>
 <p>We can also show the width of the 95% uncertainty interval by
 subtracting the “lower” from the “upper” summary raster:</p>
@@ -402,14 +402,14 @@ subtracting the “lower” from the “upper” summary raster:</p>
 <span>  col <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">sf.colors</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>,</span>
 <span>  main <span class="op">=</span> <span class="st">'MBG estimates: 95% uncertainty interval width (%)'</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">communes</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/lines.html" class="external-link">lines</a></span><span class="op">(</span><span class="va">provinces</span><span class="op">)</span></span></code></pre></div>
 <p><img src="mbg_files/figure-gfm/plot-pixel-ui-predictions-1.png"><!-- --></p>
 <p>Compare these gridded estimates to the underlying point data. The
 results seem to meet our goals for estimating stunting risk across
-Benin:</p>
+Thailand:</p>
 <ol style="list-style-type: decimal">
-<li>Gridded estimates are available for every region in Benin, not just
-at survey points</li>
+<li>Gridded estimates are available for every region in Thailand, not
+just at survey points</li>
 <li>The mean estimates for stunting risk show a similar spatial pattern
 to the underlying point data</li>
 <li>Some extreme values from the point data, which may have been noisy
@@ -450,18 +450,18 @@ Summaries of <code>draws</code> for each aggregated polygon unit,
 including the mean and the bounds of the 95% uncertainty interval across
 samples</li>
 </ul>
-<p>We can merge the commune estimate summaries back onto the
-<code>communes</code> sf object to plot the results.</p>
+<p>We can merge the province estimate summaries back onto the
+<code>provinces</code> sf object to plot the results.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Get predictions by commune</span></span>
+<code class="sourceCode R"><span><span class="co"># Get predictions by province</span></span>
 <span><span class="va">aggregated_predictions</span> <span class="op">&lt;-</span> <span class="va">model_runner</span><span class="op">$</span><span class="va">aggregated_predictions</span></span>
-<span><span class="va">commune_summary</span> <span class="op">&lt;-</span> <span class="va">aggregated_predictions</span><span class="op">$</span><span class="va">commune</span><span class="op">$</span><span class="va">summary</span></span>
+<span><span class="va">province_summary</span> <span class="op">&lt;-</span> <span class="va">aggregated_predictions</span><span class="op">$</span><span class="va">province</span><span class="op">$</span><span class="va">summary</span></span>
 <span><span class="va">summary_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/merge.html" class="external-link">merge</a></span><span class="op">(</span></span>
-<span>  x <span class="op">=</span> <span class="va">communes</span>,</span>
-<span>  y <span class="op">=</span> <span class="va">commune_summary</span>,</span>
-<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'commune_code'</span>, <span class="st">'commune'</span>, <span class="st">'department_code'</span>, <span class="st">'department'</span><span class="op">)</span></span>
+<span>  x <span class="op">=</span> <span class="va">provinces</span>,</span>
+<span>  y <span class="op">=</span> <span class="va">province_summary</span>,</span>
+<span>  by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'province_code'</span>, <span class="st">'province'</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co"># Plot aggregated estimates by commune</span></span>
+<span><span class="co"># Plot aggregated estimates by province</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">summary_sf</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">mean</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradientn</a></span><span class="op">(</span></span>
@@ -470,15 +470,15 @@ samples</li>
 <span>    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent</a></span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">'MBG mean estimates by commune'</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">'MBG mean estimates by province'</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">"Estimated\nstunting\nrate"</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mbg_files/figure-gfm/plot-commune-mean-predictions-1.png"><!-- --></p>
+<p><img src="mbg_files/figure-gfm/plot-province-mean-predictions-1.png"><!-- --></p>
 <p>We can also plot the width of the 95% uncertainty interval by
-commune.</p>
+province.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Plot aggregated uncertainty interval widths by commune</span></span>
+<code class="sourceCode R"><span><span class="co"># Plot aggregated uncertainty interval widths by province</span></span>
 <span><span class="va">summary_sf</span><span class="op">$</span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="va">summary_sf</span><span class="op">$</span><span class="va">upper</span> <span class="op">-</span> <span class="va">summary_sf</span><span class="op">$</span><span class="va">lower</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">summary_sf</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">ui</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">'black'</span><span class="op">)</span> <span class="op">+</span></span>
@@ -487,11 +487,11 @@ commune.</p>
 <span>    labels <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="va"><a href="https://scales.r-lib.org/reference/percent_format.html" class="external-link">percent</a></span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">'MBG 95% uncertainty interval width by commune'</span>,</span>
+<span>    title <span class="op">=</span> <span class="st">'MBG 95% uncertainty interval width by province'</span>,</span>
 <span>    fill <span class="op">=</span> <span class="st">'Uncertainty\ninterval\nwidth'</span></span>
 <span>  <span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="mbg_files/figure-gfm/plot-commune-ui-widths-1.png"><!-- --></p>
+<p><img src="mbg_files/figure-gfm/plot-province-ui-widths-1.png"><!-- --></p>
 <p>Note that in general, uncertainty intervals tend to be wider at the
 pixel level than for aggregated polygons. This is because some sources
 of uncertainty are uncorrelated between pixels, and this uncorrelated

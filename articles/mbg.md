@@ -54,12 +54,12 @@ outcomes <- data.table::fread(
 
 | cluster_id | indicator | samplesize |        x |        y |
 |-----------:|----------:|-----------:|---------:|---------:|
-|          3 |         5 |         16 | 1.762278 | 6.267199 |
-|          4 |         5 |         14 | 2.044534 | 6.335044 |
-|          5 |         2 |         13 | 2.420548 | 6.346753 |
-|          6 |         1 |         17 | 2.371199 | 6.349460 |
-|          7 |         8 |         20 | 1.889197 | 6.351104 |
-|          8 |         4 |         23 | 2.369804 | 6.354230 |
+|          3 |         5 |         16 | 100.5234 | 13.75632 |
+|          4 |         5 |         14 |  99.1234 | 18.45211 |
+|          5 |         2 |         13 | 102.3456 |  7.89123 |
+|          6 |         1 |         17 | 104.5678 | 16.23456 |
+|          7 |         8 |         20 |  98.9876 | 12.34567 |
+|          8 |         4 |         23 | 101.2345 | 14.56789 |
 
 The outcome data has 505 rows, each representing one surveyed location,
 and five columns:
@@ -76,8 +76,8 @@ Let’s map this survey data over a map of Thailand.
 
 ``` r
 # Administrative boundaries
-communes <- sf::st_read(
-  system.file('extdata/Thailand_communes.gpkg', package = 'ThaiMBG'),
+provinces <- sf::st_read(
+  system.file('extdata/Thailand_provinces.gpkg', package = 'ThaiMBG'),
   quiet = TRUE
 )
 
@@ -85,12 +85,12 @@ communes <- sf::st_read(
 outcome_sf <- sf::st_as_sf(
   outcomes,
   coords = c('x', 'y'),
-  crs = sf::st_crs(communes)
+  crs = sf::st_crs(provinces)
 )
 outcome_sf$stunting_rate <- outcome_sf$indicator / outcome_sf$samplesize
 
 ggplot2::ggplot() +
-  ggplot2::geom_sf(data = communes) +
+  ggplot2::geom_sf(data = provinces) +
   ggplot2::geom_sf(
     data = outcome_sf,
     ggplot2::aes(color = stunting_rate, size = samplesize),
@@ -113,10 +113,10 @@ ggplot2::ggplot() +
 
 We can see that there seem to be spatial patterns in the surveyed
 stunting data—stunting generally seems to be lower around the urban
-regions of Porto Novo in the coastal south and Parakou in the center
-north, and higher in the far north and the inland south. To better
-understand the underlying trends in stunting risk across the country, we
-would ideally like to:
+regions of Bangkok in the central plain and Chiang Mai in the north, and
+higher in the rural northeast and southern regions. To better understand
+the underlying trends in stunting risk across the country, we would
+ideally like to:
 
 - Adjust for noise in the outcome due to small sample sizes in the
   point-level survey data;
@@ -139,9 +139,9 @@ potential predictors formatted as raster surfaces:
 ``` r
 # Spatial covariates
 covariates <- list(
-  access = terra::rast(system.file('extdata/access.tif', package = 'mbg')),
-  evi = terra::rast(system.file('extdata/evi.tif', package = 'mbg')),
-  temperature = terra::rast(system.file('extdata/temperature.tif', package = 'mbg'))
+  access = terra::rast(system.file('extdata/access.tif', package = 'ThaiMBG')),
+  evi = terra::rast(system.file('extdata/evi.tif', package = 'ThaiMBG')),
+  temperature = terra::rast(system.file('extdata/temperature.tif', package = 'ThaiMBG'))
 )
 # Plot the covariates
 plot(terra::rast(covariates), nr = 1)
@@ -160,7 +160,7 @@ The geostatistical model takes three more arguments:
 2.  `aggregation_table`
     ([`data.table::data.table`](https://rdrr.io/pkg/data.table/man/data.table.html),
     optional): Used to aggregate model estimates from grid cells to
-    commune polygons, preserving uncertainty
+    province polygons, preserving uncertainty
 3.  `population_raster`
     ([`terra::SpatRaster`](https://rspatial.github.io/terra/reference/SpatRaster-class.html),
     optional): population-based indicators like child stunting should be
@@ -171,18 +171,18 @@ The geostatistical model takes three more arguments:
 ``` r
 # Create ID raster
 id_raster <- mbg::build_id_raster(
-  polygons = communes,
+  polygons = provinces,
   template_raster = covariates[[1]]
 )
 # Table to help with aggregation to higher administrative levels
 aggregation_table <- mbg::build_aggregation_table(
-  polygons = communes,
+  polygons = provinces,
   id_raster = id_raster,
-  polygon_id_field = 'commune_code'
+  polygon_id_field = 'province_code'
 )
 # Population raster: used for aggregation to administrative boundaries
 population_raster <- terra::rast(
-  system.file('extdata/under_5_population.tif', package = 'mbg')
+  system.file('extdata/under_5_population.tif', package = 'ThaiMBG')
 )
 ```
 
@@ -210,8 +210,8 @@ model_runner <- MbgModelRunner$new(
   covariate_rasters = covariates,
   aggregation_table = aggregation_table,
   aggregation_levels = list(
-    commune = c('commune_code', 'commune', 'department_code', 'department'),
-    region = c('department_code', 'department')
+    province = c('province_code', 'province'),
+    region = c('region_code', 'region')
   ),
   population_raster = population_raster
 )
@@ -269,7 +269,7 @@ plot(
   grid_cell_predictions$cell_pred_mean * 100,
   main = 'MBG mean estimates (%)'
 )
-lines(communes)
+lines(provinces)
 ```
 
 ![](mbg_files/figure-gfm/plot-pixel-mean-predictions-1.png)
@@ -284,17 +284,17 @@ plot(
   col = sf::sf.colors(n = 100),
   main = 'MBG estimates: 95% uncertainty interval width (%)'
 )
-lines(communes)
+lines(provinces)
 ```
 
 ![](mbg_files/figure-gfm/plot-pixel-ui-predictions-1.png)
 
 Compare these gridded estimates to the underlying point data. The
 results seem to meet our goals for estimating stunting risk across
-Benin:
+Thailand:
 
-1.  Gridded estimates are available for every region in Benin, not just
-    at survey points
+1.  Gridded estimates are available for every region in Thailand, not
+    just at survey points
 2.  The mean estimates for stunting risk show a similar spatial pattern
     to the underlying point data
 3.  Some extreme values from the point data, which may have been noisy
@@ -330,19 +330,19 @@ passed `aggregation_levels`. Each of those levels has two items:
   Summaries of `draws` for each aggregated polygon unit, including the
   mean and the bounds of the 95% uncertainty interval across samples
 
-We can merge the commune estimate summaries back onto the `communes` sf
-object to plot the results.
+We can merge the province estimate summaries back onto the `provinces`
+sf object to plot the results.
 
 ``` r
-# Get predictions by commune
+# Get predictions by province
 aggregated_predictions <- model_runner$aggregated_predictions
-commune_summary <- aggregated_predictions$commune$summary
+province_summary <- aggregated_predictions$province$summary
 summary_sf <- merge(
-  x = communes,
-  y = commune_summary,
-  by = c('commune_code', 'commune', 'department_code', 'department')
+  x = provinces,
+  y = province_summary,
+  by = c('province_code', 'province')
 )
-# Plot aggregated estimates by commune
+# Plot aggregated estimates by province
 ggplot2::ggplot() +
   ggplot2::geom_sf(data = summary_sf, ggplot2::aes(fill = mean), color = 'black') +
   ggplot2::scale_fill_gradientn(
@@ -351,18 +351,18 @@ ggplot2::ggplot() +
     labels = scales::percent
   ) +
   ggplot2::labs(
-    title = 'MBG mean estimates by commune',
+    title = 'MBG mean estimates by province',
     fill = "Estimated\nstunting\nrate"
   ) +
   ggplot2::theme_minimal()
 ```
 
-![](mbg_files/figure-gfm/plot-commune-mean-predictions-1.png)
+![](mbg_files/figure-gfm/plot-province-mean-predictions-1.png)
 
-We can also plot the width of the 95% uncertainty interval by commune.
+We can also plot the width of the 95% uncertainty interval by province.
 
 ``` r
-# Plot aggregated uncertainty interval widths by commune
+# Plot aggregated uncertainty interval widths by province
 summary_sf$ui <- summary_sf$upper - summary_sf$lower
 ggplot2::ggplot() +
   ggplot2::geom_sf(data = summary_sf, ggplot2::aes(fill = ui), color = 'black') +
@@ -371,13 +371,13 @@ ggplot2::ggplot() +
     labels = scales::percent
   ) +
   ggplot2::labs(
-    title = 'MBG 95% uncertainty interval width by commune',
+    title = 'MBG 95% uncertainty interval width by province',
     fill = 'Uncertainty\ninterval\nwidth'
   ) +
   ggplot2::theme_minimal()
 ```
 
-![](mbg_files/figure-gfm/plot-commune-ui-widths-1.png)
+![](mbg_files/figure-gfm/plot-province-ui-widths-1.png)
 
 Note that in general, uncertainty intervals tend to be wider at the
 pixel level than for aggregated polygons. This is because some sources
