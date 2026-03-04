@@ -272,7 +272,7 @@ To see examples of this object, run
 
 ------------------------------------------------------------------------
 
-### Method [`new()`](https://rdrr.io/r/methods/new.html)
+### Method `new()`
 
 Create a new MbgModelRunner object
 

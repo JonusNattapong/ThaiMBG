@@ -56,7 +56,7 @@
 <dd><p>Vector, matrix, data.frame, or data.table of values that will be inserted into
 the ID raster. The length of x must be exactly divisible by
 <code>sum(!is.na(terra::values(id_raster)))</code>. Data.frames are converted to matrices, and
-then matrices are converted to vectors using <code><a href="https://rspatial.github.io/terra/reference/coerce.html" class="external-link">as.matrix()</a></code> and <code><a href="https://rspatial.github.io/terra/reference/coerce.html" class="external-link">as.vector()</a></code>
+then matrices are converted to vectors using <code><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix()</a></code> and <code><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector()</a></code>
 respectively before processing. For that reason, data.frames should only contain
 fields with values to be inserted (such as a data.frame of draws).</p></dd>
 
